@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10243b">
+  <title>Library Dash | Run, Read, Discover!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="welcome-label">
+        <span class="welcome-avatar" aria-hidden="true">🧑🏻‍🚀</span>
+        <span><strong>Hai, Petualang!</strong><small>Siap belajar sambil bermain hari ini?</small></span>
+      </div>
+      <div class="player-stats">
+        <span class="stat-pill"><span class="coin-icon">🪙</span> <b id="headerCoins">0</b> koin</span>
+        <span class="stat-pill key-stat">🗝️ <b id="headerKeys">0</b> kunci</span>
+        <span class="stat-pill">🏆 <b id="headerBest">0</b> skor terbaik</span>
+      </div>
+    </header>
+
+    <main>
+      <section id="homeScreen" class="screen home-screen">
+        <div class="hero-copy">
+          <span class="eyebrow">✨ BELAJAR SAMBIL BERMAIN</span>
+          <h1 class="brand-title" aria-label="Library Dash"><span class="title-library">LIBRARY</span><span class="title-dash">DASH</span></h1>
+          <p class="home-tagline">Lari, kumpulkan buku, jawab kuis, dan jelajahi perpustakaan ajaib!</p>
+          <div class="hero-actions">
+            <button id="startGameBtn" class="btn btn-primary">🚀 Mulai Petualangan</button>
+            <button id="howToBtn" class="btn btn-secondary">📖 Cara Bermain</button>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Ilustrasi lorong perpustakaan">
+          <div class="art-glow"></div>
+          <div class="book-stack stack-one"></div><div class="book-stack stack-two"></div>
+          <div class="mini-character"><div class="char-head"></div><div class="char-body"></div><div class="char-leg left"></div><div class="char-leg right"></div></div>
+          <div class="art-caption"><span class="live-dot"></span> PETUALANGAN BARU MENUNGGU!</div>
+        </div>
+        <div class="menu-grid">
+          <button class="menu-card" data-panel="freeRun"><span class="menu-icon">🏃</span><b>Free Run</b></button>
+          <button class="menu-card" data-panel="library"><span class="menu-icon">📚</span><b>Perpustakaan</b></button>
+          <button class="menu-card" data-panel="bookstore"><span class="menu-icon">🛍️</span><b>Toko Buku</b></button>
+          <button class="menu-card" data-panel="missions"><span class="menu-icon">🧠</span><b>Kuis</b></button>
+          <button class="menu-card" data-panel="dailyWeekly"><span class="menu-icon">🎯</span><b>Misi</b></button>
+          <button class="menu-card" data-panel="shelf"><span class="menu-icon">📕</span><b>Rak Buku</b></button>
+          <button class="menu-card" data-panel="achievements"><span class="menu-icon">🏆</span><b>Pencapaian</b></button>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen game-screen hidden">
+        <div class="game-topline">
+          <button id="exitGameBtn" class="icon-btn" aria-label="Kembali ke menu">← Menu</button>
+          <div class="game-stat"><small>SKOR</small><strong id="scoreValue">0</strong></div>
+          <div class="game-stat"><small>KOIN RUN</small><strong id="runCoins">0</strong></div>
+          <div class="game-stat mission-distance-stat"><small>JARAK</small><strong id="distanceValue">0 m</strong></div>
+          <button id="pauseBtn" class="icon-btn" aria-label="Jeda permainan">Ⅱ Jeda</button>
+        </div>
+        <div class="game-frame">
+          <div id="gameCanvasWrap" class="game-canvas-wrap"></div>
+          <div class="game-hint" id="gameHint">← → pindah lajur · SPACE lompat</div>
+          <div id="missionHud" class="mission-hud hidden">
+            <div class="mission-question-top"><span id="missionProgress">MISI 1/10</span><div id="missionQuestion">Pertanyaan akan muncul di sini</div></div>
+            <div id="missionAnswers" class="mission-answers"></div>
+            <div id="missionFeedback" class="mission-feedback" aria-live="polite"></div>
+          </div>
+          <div id="pauseOverlay" class="overlay hidden">
+            <div class="overlay-card"><span class="overlay-symbol">Ⅱ</span><h2>Permainan Dijeda</h2><p>Istirahat sebentar, lalu lanjutkan petualanganmu.</p><button id="resumeBtn" class="btn btn-primary">Lanjutkan</button></div>
+          </div>
+          <div id="mysteryOverlay" class="overlay mystery-overlay hidden">
+            <div class="overlay-card mystery-card"><div class="mystery-box-art">?</div><span class="game-kicker">HADIAH RAHASIA</span><h2 id="mysteryTitle">Mystery Box!</h2><p id="mysteryDescription">Kamu menemukan kotak misteri. Buka untuk melihat hadiahmu!</p><button id="openMysteryBtn" class="btn btn-primary">🎁 Buka Kotak</button><button id="continueMysteryBtn" class="btn btn-secondary hidden">Lanjutkan Lari →</button></div>
+          </div>
+          <div id="gameOverOverlay" class="overlay hidden">
+            <div class="overlay-card"><span class="overlay-symbol">✦</span><h2>Petualangan Selesai!</h2><p>Skor: <b id="finalScore">0</b> · Koin didapat: <b id="finalCoins">0</b></p><button id="restartBtn" class="btn btn-primary">Main Lagi</button><button id="gameOverMenuBtn" class="btn btn-secondary">Kembali ke Menu</button></div>
+          </div>
+          <div class="mobile-controls">
+            <button id="leftBtn" aria-label="Pindah ke kiri">←</button>
+            <button id="jumpBtn" aria-label="Melompat">↑ <small>LOMPAT</small></button>
+            <button id="rightBtn" aria-label="Pindah ke kanan">→</button>
+          </div>
+        </div>
+        <p class="game-footnote">Prototipe runner 3D · Gunakan tombol panah / A-D dan Space, atau tombol di layar.</p>
+      </section>
+
+      <section id="contentScreen" class="screen content-screen hidden">
+        <button id="backHomeBtn" class="back-link" aria-label="Kembali ke menu" title="Kembali ke menu">←</button>
+        <div id="contentMount"></div>
+      </section>
+    </main>
+    <footer><span>LIBRARY DASH</span><span>Belajar · Bermain · Bertumbuh</span></footer>
+  </div>
+
+  <dialog id="howToDialog" class="how-dialog">
+    <form method="dialog" class="dialog-inner">
+      <button class="dialog-close" aria-label="Tutup">×</button>
+      <span class="eyebrow">PANDUAN PETUALANG</span><h2>Cara Bermain</h2>
+      <div class="howto-grid howto-level-guide">
+        <div class="howto-item"><span class="howto-art coin-art">🗺️</span><div><b>1. Pilih Level Petualangan</b><p>Pilih level yang sudah terbuka. Sebelum mulai, baca target level pada pop-up persiapan.</p></div></div>
+        <div class="howto-item"><span class="howto-art box-art">📚</span><div><b>2. Selesaikan target</b><p>Kumpulkan jumlah buku merah atau huruf yang diminta. Untuk level huruf, ambil huruf sesuai urutan agar membentuk kata target.</p></div></div>
+        <div class="howto-item"><span class="howto-art desk-art">🧠</span><div><b>3. Jawab soal literasi</b><p>Setiap level memiliki 2 soal. Jawaban benar membuatmu lanjut berlari; jawaban salah langsung mengakhiri level.</p></div></div>
+        <div class="howto-item"><span class="howto-art barrier-art">🏁</span><div><b>4. Capai garis akhir</b><p>Lengkapi target koleksi, jawab soal dengan benar, dan capai garis akhir untuk menyelesaikan level serta mendapatkan koin hadiah.</p></div></div>
+      </div>
+      <ul><li><b>← / → atau A / D</b> — berpindah lajur.</li><li><b>Space / ↑ / W</b> — melompat melewati rintangan.</li><li><b>Free Run</b> — kumpulkan koin, hindari rintangan, dan raih skor sejauh mungkin tanpa target level.</li><li><b>HP</b> — gunakan tombol kiri, kanan, dan lompat di layar.</li></ul>
+      <p>Koin yang dikumpulkan tersimpan untuk membuka cerita di Toko Buku. Progres permainan tersimpan di browser yang sama.</p>
+      <button class="btn btn-primary">Mengerti</button>
+    </form>
+  </dialog>
+
+  <dialog id="runIntroDialog" class="run-intro-dialog">
+    <form method="dialog" class="run-intro-card">
+      <button type="button" id="runIntroClose" class="run-intro-close" aria-label="Tutup">×</button>
+      <div id="runIntroIcon" class="run-intro-icon">📚</div>
+      <p class="eyebrow" id="runIntroKicker">SIAP BERPETUALANG?</p>
+      <h2 id="runIntroTitle">Level 1</h2>
+      <p id="runIntroDescription">Kumpulkan buku dan jawab pertanyaan literasi.</p>
+      <div id="runIntroTargets" class="run-intro-targets"></div>
+      <button type="button" id="runIntroStart" class="btn btn-primary">Mulai Lari! ▶</button>
+      <button type="button" id="runIntroCancel" class="btn btn-secondary">Belum, kembali</button>
+    </form>
+  </dialog>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
